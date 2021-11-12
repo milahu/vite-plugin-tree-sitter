@@ -1,0 +1,9 @@
+{
+  "name": "vite-plugin-tree-sitter",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "keywords": ["tree-sitter", "vite-plugin"],
+  "author": "milahu",
+  "license": "CC0-1.0"
+}
