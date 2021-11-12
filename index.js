@@ -8,7 +8,6 @@ https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/wasm.rs
 
 */
 
-import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 
