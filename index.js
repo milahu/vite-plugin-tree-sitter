@@ -18,19 +18,11 @@ vite.config.js
 
 import treeSitterPlugin from 'vite-plugin-tree-sitter';
 
-  // only use local crate
   plugins: [
-    treeSitterPlugin({ local: ['./my-local-crate'] }),
-  ],
-
-  // only use npm crate, leave the first param to an empty array
-  plugins: [
-    treeSitterPlugin({ npm: ['test-npm-crate'] }),
-  ],
-
-  // use both local and npm crate
-  plugins: [
-    treeSitterPlugin({ local: ['./my-local-crate'], npm: ['test-npm-crate'] }),
+    treeSitterPlugin([
+      'tree-sitter-javascript', // npm package
+      './path/to/tree-sitter-html', // local package
+    ]),
   ],
 */
 
