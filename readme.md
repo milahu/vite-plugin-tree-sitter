@@ -88,3 +88,6 @@ export default function (props) {
 ## related
 
 * https://github.com/tree-sitter/tree-sitter/discussions/1024 Using Tree-Sitter in Browser
+  * https://tree-sitter.github.io/tree-sitter/playground
+  * https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-7-playground.html
+  * https://github.com/tree-sitter/tree-sitter/blob/master/docs/assets/js/playground.js
