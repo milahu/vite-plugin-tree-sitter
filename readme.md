@@ -12,11 +12,52 @@ this plugin will
 
 ## example
 
-[solidjs](https://github.com/solidjs/solid) framework
+[solidjs](https://github.com/solidjs/solid) framework,
+based on [solidjs template](https://github.com/solidjs/templates/tree/master/js)
+
+### package.json
+
+```json
+{
+  "name": "example-project",
+  "scripts": {
+    "dev": "vite --clearScreen false"
+  },
+  "devDependencies": {
+    "tree-sitter-nix": "github:cstrahan/tree-sitter-nix",
+    "vite": "*",
+    "vite-plugin-solid": "*",
+    "vite-plugin-tree-sitter": "github:milahu/vite-plugin-tree-sitter",
+    "web-tree-sitter": "*"
+  },
+  "dependencies": {
+    "solid-js": "*"
+  }
+}
+```
+
+### vite.config.js
+
+```js
+import { defineConfig } from "vite";
+import solidPlugin from "vite-plugin-solid";
+import treeSitterPlugin from "vite-plugin-tree-sitter";
+
+export default defineConfig({
+  plugins: [
+    treeSitterPlugin(['tree-sitter-nix']),
+    solidPlugin(),
+  ],
+  build: {
+    target: "esnext",
+    polyfillDynamicImport: false,
+  },
+});
+```
+
+### TreeSitter.jsx
 
 ```jsx
-// TreeSitter.jsx
-
 import { onMount } from 'solid-js';
 import TreeSitter from 'web-tree-sitter';
 
