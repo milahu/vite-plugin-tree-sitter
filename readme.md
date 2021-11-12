@@ -24,15 +24,12 @@ export default function (props) {
 
   onMount(async () => {
     await TreeSitter.init();
-    //TreeSitterNix = await TreeSitter.Language.load(TreeSitterNixWasm);
-    const TreeSitterNix = await TreeSitter.Language.load('/assets/tree-sitter-nix.wasm'); // TODO serve from vite
-
+    const TreeSitterNix = await TreeSitter.Language.load('/assets/tree-sitter-nix.wasm');
     const parser = new TreeSitter();
     parser.setLanguage(TreeSitterNix);
 
     const sourceCode = 'if true then true else false';
     const tree = parser.parse(sourceCode);
-    console.log(JSON.stringify(tree));
     console.log(tree);
   }
 
