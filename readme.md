@@ -91,3 +91,6 @@ export default function (props) {
   * https://tree-sitter.github.io/tree-sitter/playground
   * https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-7-playground.html
   * https://github.com/tree-sitter/tree-sitter/blob/master/docs/assets/js/playground.js
+* https://github.com/lezer-parser/lr lezer incremental parser, used by codemirror
+  * https://discuss.codemirror.net/t/mapping-tree-sitter-trees-to-lezer-trees/2362
+  * https://discuss.codemirror.net/t/performance-vs-tree-sitter-for-non-web-based-use/3317

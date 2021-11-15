@@ -5,6 +5,7 @@ vite-plugin-treesitter
 based on
 https://github.com/nshen/vite-plugin-treesitter/blob/main/src/index.ts
 https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/wasm.rs
+https://github.com/tree-sitter/tree-sitter/blob/master/script/build-wasm
 
 */
 
@@ -26,8 +27,6 @@ import treeSitterPlugin from 'vite-plugin-tree-sitter';
   ],
 */
 
-const pluginName = 'vite-plugin-treesitter';
-
 export default function (packages, options) {
 
   // parse arguments
@@ -38,7 +37,7 @@ export default function (packages, options) {
   const localPathList = packages.filter(path => path.startsWith('./'));
   const npmPathList = packages.filter(path => !path.startsWith('./'));
 
-  const prefix = `@${pluginName}@`;
+  const prefix = `@vite-plugin-tree-sitter@`;
   const wasmPackOutputPath = 'pkg'; // TODO
 
   // from ../../my-crate  ->  my_crate_bg.wasm
@@ -87,7 +86,7 @@ export default function (packages, options) {
 
   return { // plugin object
 
-    name: pluginName,
+    name: 'vite-plugin-tree-sitter',
     enforce: 'pre',
 
     configResolved(resolvedConfig) {
@@ -96,13 +95,13 @@ export default function (packages, options) {
     },
 
     resolveId(id) {
-      //console.log(`${pluginName}: resolveId? ${id}`)
+      //console.log(`vite-plugin-tree-sitter: resolveId? ${id}`)
       if (id.includes('.wasm')) {
-        console.log(`${pluginName}: resolveId? ${id}`);
+        console.log(`vite-plugin-tree-sitter: resolveId? ${id}`);
       }
       for (let i = 0; i < localPathList.length; i++) {
         if (path.basename(localPathList[i]) === id) {
-          console.log(`${pluginName}: resolveId! ${id}`)
+          console.log(`vite-plugin-tree-sitter: resolveId! ${id}`)
           return prefix + id;
         }
       }
@@ -110,19 +109,19 @@ export default function (packages, options) {
     },
 
     async load(id) {
-      //console.log(`${pluginName}: load? ${id}`)
+      //console.log(`vite-plugin-tree-sitter: load? ${id}`)
       if (id.includes('.wasm')) {
-        console.log(`${pluginName}: load? ${id}`)
+        console.log(`vite-plugin-tree-sitter: load? ${id}`)
       }
       if (id.startsWith(prefix)) {
-        console.log(`${pluginName}: load! ${id}`)
+        console.log(`vite-plugin-tree-sitter: load! ${id}`)
         id = id.slice(prefix.length);
         const modulejs = path.join(
           './node_modules',
           id,
           id.replace(/\-/g, '_') + '.js'
         );
-        console.log(`${pluginName}: load: read code from ${modulejs}`)
+        console.log(`vite-plugin-tree-sitter: load: read code from ${modulejs}`)
         const code = await fs.promises.readFile(modulejs, {
           encoding: 'utf8'
         });
@@ -138,9 +137,9 @@ export default function (packages, options) {
         const pkgName = path.basename(pkgPath);
         if (!fs.existsSync(pkgPathFull)) {
           if (isNodeModule) {
-            console.error(`${pluginName}: cannot find npm module ${pkgPathFull}`);
+            console.error(`vite-plugin-tree-sitter: cannot find npm module ${pkgPathFull}`);
           } else {
-            console.error(`${pluginName}: cannot find local module ${pkgPathFull}`);
+            console.error(`vite-plugin-tree-sitter: cannot find local module ${pkgPathFull}`);
           }
         }
         if (!isNodeModule) {
@@ -155,7 +154,7 @@ export default function (packages, options) {
         // compile if necessary
         const grammar_name = (pkgName.match(/^tree-sitter-(.+)$/) || [])[1];
         if (!grammar_name) {
-          console.error(`${pluginName}: cannot parse tree-sitter grammar_name from pkgName ${pkgName}`);
+          console.error(`vite-plugin-tree-sitter: cannot parse tree-sitter grammar_name from pkgName ${pkgName}`);
         }
         //const outDir = 'dist/assets';
         const outDir = 'node_modules/.vite'; // TODO handle read-only node_modules
@@ -177,7 +176,10 @@ export default function (packages, options) {
           '-s', 'TOTAL_MEMORY=33554432',
           '-s', 'NODEJS_CATCH_EXIT=0',
           '-s', `EXPORTED_FUNCTIONS=["_tree_sitter_${grammar_name}"]`,
-          '-s', 'ASSERTIONS=1', // debug loading errors
+          /* debug
+          '-s', 'ASSERTIONS=1',
+          '-s', 'SAFE_HEAP=1',
+          */
           //'-o', outJsPath, // passing *.js will produce *.js and *.wasm files
           '-o', outWasmPath, // passing *.js will produce *.js and *.wasm files
           '-I', `${pkgPathFull}/src`,
@@ -185,7 +187,7 @@ export default function (packages, options) {
           `${pkgPathFull}/src/scanner.c`, // TODO glob: *.c | *.cc | *.cpp
           // TODO add -xc++ for scanner.cc / scanner.cpp
         ];
-        console.log(`${pluginName}: compile ${pkgPathFull} -> ${outWasmPath}`)
+        console.log(`vite-plugin-tree-sitter: compile ${pkgPathFull} -> ${outWasmPath}`)
         const emccEnv = { ...process.env };
         delete emccEnv.NODE; // fix warning: honoring legacy environment variable `NODE`
         const emccProcess = child_process.spawnSync(compileArgs[0], compileArgs.slice(1), {
@@ -194,20 +196,26 @@ export default function (packages, options) {
           env: emccEnv,
           encoding: 'utf8'
         });
-        if (emccProcess.status != 0) {
-          console.error(`${pluginName}: buildStart: compile error: code ${emccProcess.status}`)
-          if (emccProcess.status == null) {
-            console.error(`${pluginName}: buildStart: compile error: emcc not found?`)
-          }
-          // print emcc output only on error
+        function printEmccOutput() {
           console.log('emcc output:');
           console.log(emccProcess.stdout);
           console.log('emcc error:');
           console.log(emccProcess.stderr);
         }
+        if (emccProcess.status != 0) {
+          console.error(`vite-plugin-tree-sitter: buildStart: compile error: code ${emccProcess.status}`)
+          if (emccProcess.status == null) {
+            console.error(`vite-plugin-tree-sitter: buildStart: compile error: emcc not found?`)
+          }
+          printEmccOutput();
+        }
+        if (!fs.existsSync(outWasmPath)) {
+          console.error(`vite-plugin-tree-sitter: buildStart: compile error: output file is missing`)
+          printEmccOutput();
+        }
         /*
         else {
-          console.error(`${pluginName}: buildStart: compile ok: ${outWasmPath}`)
+          console.error(`vite-plugin-tree-sitter: buildStart: compile ok: ${outWasmPath}`)
         }
         */
 
@@ -235,7 +243,7 @@ export default function (packages, options) {
             );
             const wasm = wasmMap.get(urlName);
             if (wasm) {
-              console.log(`${pluginName}: serve ${req.url} -> ${wasm.path}`)
+              console.log(`vite-plugin-tree-sitter: serve ${req.url} -> ${wasm.path}`)
               res.writeHead(200, { 'Content-Type': 'application/wasm' });
               fs.createReadStream(wasm.path).pipe(res);
             } else {
