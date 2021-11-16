@@ -1,0 +1,17 @@
+{
+  "name": "example-project",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --clearScreen false"
+  },
+  "devDependencies": {
+    "tree-sitter-nix": "github:cstrahan/tree-sitter-nix",
+    "vite": "*",
+    "vite-plugin-solid": "*",
+    "vite-plugin-tree-sitter": "github:milahu/vite-plugin-tree-sitter",
+    "web-tree-sitter": "*"
+  },
+  "dependencies": {
+    "solid-js": "*"
+  }
+}
