@@ -20,6 +20,7 @@ see [examples/solidjs/](examples/solidjs/)
 ## similar projects
 
 * https://github.com/Menci/monaco-tree-sitter monaco editor + tree-sitter parser ([via](https://github.com/EvgeniyPeshkov/syntax-highlighter/issues/46))
+  * fork: https://github.com/milahu/monaco-tree-sitter
 * https://github.com/wolfmcnally/svelte-emscripten
 * https://github.com/nshen/vite-plugin-wasm-pack
 * https://github.com/lencx/vite-plugin-rsw wasm-pack plugin for Vite
