@@ -5,6 +5,8 @@
     "dev": "vite --clearScreen false"
   },
   "devDependencies": {
+    "solid-styled-components": "^0.27.6",
+    "solidjs-treeview-component": "github:milahu/solidjs-treeview-component",
     "tree-sitter-nix": "github:cstrahan/tree-sitter-nix",
     "vite": "*",
     "vite-plugin-solid": "*",
