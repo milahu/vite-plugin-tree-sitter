@@ -31,7 +31,7 @@ export default function (packages, options) {
 
   // parse arguments
   if (!packages) packages = [];
-  if (!options) options = {};
+  if (!options) options = { alwaysRebuild: false };
 
   // TODO refactor ...
   const localPathList = packages.filter(path => path.startsWith('./'));
@@ -165,53 +165,67 @@ export default function (packages, options) {
         //const outJsPath = `${outBasePath}.js`;
         const outWasmPath = `${outBasePath}.wasm`;
 
-        // based on https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/wasm.rs
-        const compileArgs = [
-          'emcc',
-          '-v', // verbose
-          '-Os',
-          '-fno-exceptions',
-          '-s', 'WASM=1',
-          '-s', 'SIDE_MODULE=1', // produce only *.wasm file -> is only a "side module" for other *.wasm file
-          '-s', 'TOTAL_MEMORY=33554432',
-          '-s', 'NODEJS_CATCH_EXIT=0',
-          '-s', `EXPORTED_FUNCTIONS=["_tree_sitter_${grammar_name}"]`,
-          /* debug
-          '-s', 'ASSERTIONS=1',
-          '-s', 'SAFE_HEAP=1',
-          */
-          //'-o', outJsPath, // passing *.js will produce *.js and *.wasm files
-          '-o', outWasmPath, // passing *.js will produce *.js and *.wasm files
-          '-I', `${pkgPathFull}/src`,
-          `${pkgPathFull}/src/parser.c`,
-          `${pkgPathFull}/src/scanner.c`, // TODO glob: *.c | *.cc | *.cpp
-          // TODO add -xc++ for scanner.cc / scanner.cpp
-        ];
-        console.log(`vite-plugin-tree-sitter: compile ${pkgPathFull} -> ${outWasmPath}`)
-        const emccEnv = { ...process.env };
-        delete emccEnv.NODE; // fix warning: honoring legacy environment variable `NODE`
-        const emccProcess = child_process.spawnSync(compileArgs[0], compileArgs.slice(1), {
-          stdio: [null, 'pipe', 'pipe'],
-          //stdio: 'inherit',
-          env: emccEnv,
-          encoding: 'utf8'
-        });
-        function printEmccOutput() {
-          console.log('emcc output:');
-          console.log(emccProcess.stdout);
-          console.log('emcc error:');
-          console.log(emccProcess.stderr);
-        }
-        if (emccProcess.status != 0) {
-          console.error(`vite-plugin-tree-sitter: buildStart: compile error: code ${emccProcess.status}`)
-          if (emccProcess.status == null) {
-            console.error(`vite-plugin-tree-sitter: buildStart: compile error: emcc not found?`)
+        if(options.alwaysRebuild || !fs.existsSync(outWasmPath)) {
+          const sourceFileArgs = [`${pkgPathFull}/src/parser.c`];
+          if (fs.existsSync(`${pkgPathFull}/src/scanner.cc`)) {
+            sourceFileArgs.push("-xc++", `${pkgPathFull}/src/scanner.cc`);
+          } else if (fs.existsSync(`${pkgPathFull}/src/scanner.cpp`)) {
+            sourceFileArgs.push("-xc++", `${pkgPathFull}/src/scanner.cpp`);
+          } else if (fs.existsSync(`${pkgPathFull}/src/scanner.c`)) {
+            sourceFileArgs.push(`${pkgPathFull}/src/scanner.c`);
           }
-          printEmccOutput();
-        }
-        if (!fs.existsSync(outWasmPath)) {
-          console.error(`vite-plugin-tree-sitter: buildStart: compile error: output file is missing`)
-          printEmccOutput();
+
+          // based on https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/wasm.rs
+          // last updated: 2023-04-07
+          const compileArgs = [
+            'emcc',
+            '-v', // verbose
+            '-Os',
+            '-fno-exceptions',
+            '-s', 'WASM=1',
+            '-s', 'SIDE_MODULE=1', // produce only *.wasm file -> is only a "side module" for other *.wasm file
+            '-s', 'TOTAL_MEMORY=33554432',
+            '-s', 'NODEJS_CATCH_EXIT=0',
+            '-s', 'NODEJS_CATCH_REJECTION=0',
+            '-s', `EXPORTED_FUNCTIONS=["_tree_sitter_${grammar_name}"]`,
+            /* debug
+            '-s', 'ASSERTIONS=1',
+            '-s', 'SAFE_HEAP=1',
+            */
+            //'-o', outJsPath, // passing *.js will produce *.js and *.wasm files
+            '-o', outWasmPath,
+            '-I', `${pkgPathFull}/src`,
+            ...sourceFileArgs
+          ];
+          console.log(`vite-plugin-tree-sitter: compile ${pkgPathFull} -> ${outWasmPath}`)
+          const emccEnv = { ...process.env };
+          delete emccEnv.NODE; // fix warning: honoring legacy environment variable `NODE`
+          const emccProcess = child_process.spawnSync(compileArgs[0], compileArgs.slice(1), {
+            stdio: [null, 'pipe', 'pipe'],
+            //stdio: 'inherit',
+            env: emccEnv,
+            encoding: 'utf8'
+          });
+          function printEmccOutput() {
+            console.log('emcc output:');
+            console.log(emccProcess.stdout);
+            console.log('emcc error:');
+            console.log(emccProcess.stderr);
+          }
+          if (emccProcess.status != 0) {
+            console.error(`vite-plugin-tree-sitter: buildStart: compile error: code ${emccProcess.status}`)
+            if (emccProcess.status == null) {
+              console.error(`vite-plugin-tree-sitter: buildStart: compile error: emcc not found?`)
+            }
+            printEmccOutput();
+          }
+          if (!fs.existsSync(outWasmPath)) {
+            console.error(`vite-plugin-tree-sitter: buildStart: compile error: output file is missing`)
+            printEmccOutput();
+          }
+        } else {
+          console.log(`vite-plugin-tree-sitter: Skipped build of 'tree-sitter-${grammar_name}.wasm' Output already exists`)
+          console.log("vite-plugin-tree-sitter: To force rebuild manually delete the output file(s) or use plugin option 'alwaysRebuild'")
         }
         /*
         else {
