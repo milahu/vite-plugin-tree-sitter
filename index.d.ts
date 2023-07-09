@@ -10,5 +10,5 @@ type PackageObject = {
 
 export default function (
   packages: Package[],
-  //options?: { ... }
+  options?: { alwaysRebuild?: boolean }
 ): Plugin;
