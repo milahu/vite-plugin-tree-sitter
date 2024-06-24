@@ -157,7 +157,7 @@ export default function (packages, options) {
           console.error(`vite-plugin-tree-sitter: cannot parse tree-sitter grammar_name from pkgName ${pkgName}`);
         }
         //const outDir = 'node_modules/.vite'; // this folder is removed by vite
-        const outDir = 'dist/assets';
+        const outDir = options.outDir || 'dist/assets';
         if (!fs.existsSync(outDir)) {
           fs.mkdirSync(outDir, { recursive: true });
         }
