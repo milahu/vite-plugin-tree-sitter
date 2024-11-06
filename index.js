@@ -22,7 +22,9 @@ import treeSitterPlugin from 'vite-plugin-tree-sitter';
   plugins: [
     treeSitterPlugin([
       'tree-sitter-javascript', // npm package
-      './path/to/tree-sitter-html', // local package
+      './path/within/project/to/tree-sitter-html', // local package
+      '../path/outside/project/to/tree-sitter-sqlite', // local package
+      '/absolute/path/to/tree-sitter-go', // local package
     ]),
   ],
 */
@@ -33,9 +35,16 @@ export default function (packages, options) {
   if (!packages) packages = [];
   if (!options) options = { alwaysRebuild: false };
 
-  // TODO refactor ...
-  const localPathList = packages.filter(path => path.startsWith('./'));
-  const npmPathList = packages.filter(path => !path.startsWith('./'));
+  const localPathList = [];
+  const npmPathList = [];
+
+  for (const path of packages) {
+    if (path.startsWith('./') || path.startsWith('../') || path.startsWith('/'))	{
+      localPathList.push(path)
+    } else {
+      npmPathList.push(path)
+    }
+  }
 
   const prefix = `@vite-plugin-tree-sitter@`;
   const wasmPackOutputPath = 'pkg'; // TODO
@@ -133,7 +142,7 @@ export default function (packages, options) {
       async function prepareBuild(pkgPath, isNodeModule) {
         const pkgPathFull = isNodeModule
           ? path.join('node_modules', pkgPath)
-          : path.join(pkgPath, pkg);
+          : path.join(pkgPath);
         const pkgName = path.basename(pkgPath);
         if (!fs.existsSync(pkgPathFull)) {
           if (isNodeModule) {
@@ -147,7 +156,7 @@ export default function (packages, options) {
           try {
             await fs.copy(pkgPath, path.join('node_modules', pkgName));
           } catch (error) {
-            this.error(`copy crates failed`);
+            console.error(`copy crates failed`);
           }
         }
 
