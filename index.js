@@ -255,7 +255,6 @@ export default function (packages, options) {
     },
 
     configureServer({ middlewares }) {
-      return () => {
         // send 'root/pkg/xxx.wasm' file to user
         middlewares.use((req, res, next) => {
           if (req.url) {
@@ -274,7 +273,6 @@ export default function (packages, options) {
             }
           }
         });
-      };
     },
 
     // TODO ...
