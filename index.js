@@ -185,14 +185,14 @@ export default function (packages, options) {
           }
 
           // based on https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/wasm.rs
-          // last updated: 2023-04-07
+          // last updated: 2024-11-10 
           const compileArgs = [
             'emcc',
             '-v', // verbose
             '-Os',
             '-fno-exceptions',
             '-s', 'WASM=1',
-            '-s', 'SIDE_MODULE=1', // produce only *.wasm file -> is only a "side module" for other *.wasm file
+            '-s', 'SIDE_MODULE=2', // produce only *.wasm file -> is only a "side module" for other *.wasm file
             '-s', 'TOTAL_MEMORY=33554432',
             '-s', 'NODEJS_CATCH_EXIT=0',
             '-s', 'NODEJS_CATCH_REJECTION=0',
@@ -206,6 +206,9 @@ export default function (packages, options) {
             '-I', `${pkgPathFull}/src`,
             ...sourceFileArgs
           ];
+          if(options.cacheDir){
+            compileArgs.push('--cache', options.cacheDir)
+          }
           console.log(`vite-plugin-tree-sitter: compile ${pkgPathFull} -> ${outWasmPath}`)
           const emccEnv = { ...process.env };
           delete emccEnv.NODE; // fix warning: honoring legacy environment variable `NODE`

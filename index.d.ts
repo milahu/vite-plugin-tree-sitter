@@ -10,5 +10,5 @@ type PackageObject = {
 
 export default function (
   packages: Package[],
-  options?: { alwaysRebuild?: boolean, outDir?: string }
+  options?: { alwaysRebuild?: boolean, outDir?: string, cacheDir?: string }
 ): Plugin;
