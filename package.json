@@ -6,5 +6,8 @@
   "types": "./index.d.ts",
   "keywords": ["tree-sitter", "vite-plugin"],
   "contributors": ["milahu", "Guyven <guyven@pm.me>"],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
 }

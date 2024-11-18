@@ -261,6 +261,7 @@ export default function (packages, options) {
         // send 'root/pkg/xxx.wasm' file to user
         middlewares.use((req, res, next) => {
           if (req.url) {
+            console.log(req.url)
             const urlName = path.basename(req.url);
             res.setHeader(
               'Cache-Control',
