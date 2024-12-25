@@ -326,7 +326,6 @@
   "workspace": {
     "dependencies": [
       "jsr:@guyven/vite-plugin-tree-sitter@~0.2.1",
-      "npm:ora@^8.1.1",
       "npm:vite@^6.0.5",
       "npm:web-tree-sitter@~0.24.5"
     ]
