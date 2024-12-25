@@ -4,6 +4,10 @@ This plugin for [vite](https://github.com/vitejs/vite) streamlines the process o
 developing and bundling a [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/lib/binding_web)
 grammar in your project.
 
+- `0.2.1` 2024-12-24 : cleanup for `jsr` publish
+  - added `deno` example
+  - corrected error with detection of `tree-sitter-cli` tool location
+  - added type documentation
 - `0.2.0` 2024-12-24 : major refactor
   - use `tree-sitter-cli` instead of replicating it's behavior locally
   - project converted to `deno`

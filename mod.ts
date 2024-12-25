@@ -7,13 +7,12 @@ import {
 	fsExecute,
 	fsExists,
 	info,
+	pluginName,
 	Defaults as util_defaults,
 } from "./util.ts"
 import { createReadStream } from "node:fs"
 import { join as pathJoin, basename } from "node:path"
 import { mkdir, readFile } from "node:fs/promises"
-
-export const pluginName = "vite-plugin-tree-sitter"
 
 async function identifyCLI() {
 	for (const tsPath of [
@@ -29,14 +28,22 @@ async function identifyCLI() {
 	})
 }
 
+/**
+ * Plugin for controlling the building and bundling of tree-sitter grammars
+ */
 export default function (
+	/** path(s) to grammars to include */
 	parsers: [string, ...string[]],
-	options?: Partial<{
+	options: Partial<{
+		/** If false, only rebuild when grammar is missing, if true always rebuild, default = false */
 		alwaysRebuild: boolean
+		/** Specify directory for wasm output files, default = .grammar */
 		wasmCacheDir: string
+		/** Override for `emcc` tool's cache directory. May be useful if write permissions interfere */
 		emBuildCacheDir: string
+		/** Detail level of messages emitted at runtime, default = INFO */
 		logLevel: "DEBUG" | "INFO" | "ERROR"
-	}>,
+	}> = {},
 ): PluginOption {
 	// console.log({ cwd: Deno.cwd(), parsers, options })
 	if (!Array.isArray(parsers) || typeof parsers[0] != "string") {
@@ -44,7 +51,6 @@ export default function (
 			"argument 'parsers' required and must be an array of strings",
 		)
 	}
-	if (!options) options = {}
 	const wasmCacheDir = options.wasmCacheDir || ".grammar"
 
 	if (options.logLevel == "DEBUG") {
@@ -80,7 +86,16 @@ export default function (
 			const grammars = new Map()
 			for (const parser of parsers) {
 				const err = (t: string) => error(t, { extra: parser })
-				const grammar_path = pathJoin(parser, "tree-sitter.json")
+				const isPkg = !(
+					parser.startsWith("./") ||
+					parser.startsWith("../") ||
+					parser.startsWith("/")
+				)
+				const grammar_path = pathJoin(
+					isPkg ? "node_modules" : "",
+					parser,
+					"tree-sitter.json",
+				)
 				const grammarExists = await fsExists(grammar_path)
 				if (grammarExists) {
 					try {

@@ -1,0 +1,13 @@
+{
+	"tasks": {
+		"dev": "deno run -A npm:vite --clearScreen false",
+		"build": "deno run -A npm:vite build"
+	},
+	"imports": {
+		"ora": "npm:ora@^8.1.1",
+		"vite": "npm:vite@^6.0.5",
+		"web-tree-sitter": "npm:web-tree-sitter@^0.24.5"
+	},
+	"compilerOptions": { "lib": ["deno.ns", "dom"] },
+	"nodeModulesDir": "auto"
+}

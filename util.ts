@@ -1,7 +1,8 @@
 import { stat } from "node:fs/promises"
 import { spawn } from "node:child_process"
 import { join as pathJoin } from "node:path"
-import { pluginName } from "./mod.ts"
+
+export const pluginName = "vite-plugin-tree-sitter"
 
 export const Defaults: {
 	logPrefix: string
@@ -48,14 +49,20 @@ export const fsExecute = (
 	const { args, env } = options
 	const cmd = spawn(path, args, { env })
 	const result = { success: false, stderr: "", stdout: "" }
-	cmd.stdout.on("data", data => (result.stdout = data))
-	cmd.stderr.on("data", data => (result.stderr = data))
-	return new Promise(resolve =>
+	cmd.stdout?.on("data", data => (result.stdout = data))
+	cmd.stderr?.on("data", data => (result.stderr = data))
+	return new Promise(resolve => {
+		cmd.on("error", _err => {
+			result.success = false
+			// TODO include error in result
+			// console.error(_err)
+			resolve(result)
+		})
 		cmd.on("close", code => {
 			result.success = code == 0
 			resolve(result)
-		}),
-	)
+		})
+	})
 }
 export const fsExists = async (path: string): Promise<boolean> => {
 	path = Array.isArray(path) ? pathJoin(...path) : path
