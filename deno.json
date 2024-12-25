@@ -4,10 +4,18 @@
 	"exports": "./mod.ts",
 	"license": "MIT",
 	"imports": {
+		"@types/node": "npm:@types/node@^22.10.2",
 		"ora": "npm:ora@^8.1.1",
 		"vite": "npm:vite@^5.4.11"
 	},
 	"publish": {
-		"include": ["LICENSE", "mod.ts", "deno.json", "deno.lock", "README.md"]
+		"include": [
+			"LICENSE",
+			"mod.ts",
+			"util.ts",
+			"deno.json",
+			"deno.lock",
+			"README.md"
+		]
 	}
 }
