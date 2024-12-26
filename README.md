@@ -4,6 +4,9 @@ This plugin for [vite](https://github.com/vitejs/vite) streamlines the process o
 developing and bundling a [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/lib/binding_web)
 grammar in your project.
 
+- `0.2.2` 2024-12-25 : added support for legacy grammar definitions
+  - attempt is made to upgrade a grammar before giving up
+  - added `pnpm` example usage
 - `0.2.1` 2024-12-24 : cleanup for `jsr` publish
   - added `deno` example
   - corrected error with detection of `tree-sitter-cli` tool location
