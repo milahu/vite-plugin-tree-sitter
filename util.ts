@@ -43,11 +43,15 @@ export const error = (text: string, { extra = "" } = {}) =>
 
 export const fsExecute = (
 	path: string,
-	options: Partial<{ args: string[]; env: Record<string, string> }> = {},
+	options: Partial<{
+		args: string[]
+		env: Record<string, string>
+		cwd: string
+	}> = {},
 ): Promise<{ success: boolean; stdout: string; stderr: string }> => {
 	path = Array.isArray(path) ? pathJoin(...path) : path
-	const { args, env } = options
-	const cmd = spawn(path, args, { env })
+	const { args, env, cwd } = options
+	const cmd = spawn(path, args, { env, cwd })
 	const result = { success: false, stderr: "", stdout: "" }
 	cmd.stdout?.on("data", data => (result.stdout = data))
 	cmd.stderr?.on("data", data => (result.stderr = data))

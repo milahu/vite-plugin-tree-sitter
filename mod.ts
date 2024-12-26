@@ -91,27 +91,50 @@ export default function (
 					parser.startsWith("../") ||
 					parser.startsWith("/")
 				)
-				const grammar_path = pathJoin(
-					isPkg ? "node_modules" : "",
-					parser,
-					"tree-sitter.json",
-				)
-				const grammarExists = await fsExists(grammar_path)
-				if (grammarExists) {
-					try {
-						const parser_name = JSON.parse(await readFile(grammar_path, "utf8"))
-							.grammars[0].name
-						grammars.set(parser_name, parser)
-					} catch (_e) {
-						// console.error({ _e })
-						err("unable to parse the grammar definition")
+				const grammar_base_path = pathJoin(isPkg ? "node_modules" : "", parser)
+				const grammar_path = pathJoin(grammar_base_path, "tree-sitter.json")
+
+				if (!(await fsExists(grammar_path))) {
+					const pkgJsonPath = pathJoin(grammar_base_path, "package.json")
+					if (!(await fsExists(pkgJsonPath))) {
+						err("Unable to find 'tree-sitter.json' or 'package.json'")
+						continue
 					}
-				} else {
-					err("Unable to find 'tree-sitter.json'")
+					if (
+						!("tree-sitter" in JSON.parse(await readFile(pkgJsonPath, "utf8")))
+					) {
+						err(
+							"Unable to find 'tree-sitter.json' or 'tree-sitter' section of 'package.json'",
+						)
+						continue
+					}
+					info(
+						"'tree-sitter.json' missing, attempting to upgrade target grammar",
+						{ extra: grammar_base_path },
+					)
+					const { success, stderr } = await fsExecute(ts, {
+						args: ["init", "--update"],
+						cwd: grammar_base_path,
+					})
+
+					if (!success) {
+						error("Tool Output", { extra: stderr })
+					}
+					if (!(await fsExists(grammar_path))) {
+						err("Failed to upgrade grammar, will not include in bundle")
+						continue
+					}
+				}
+
+				try {
+					const parser_name = JSON.parse(await readFile(grammar_path, "utf8"))
+						.grammars[0].name
+					grammars.set(parser_name, parser)
+				} catch (_e) {
+					// console.error({ _e })
+					err("Unable to parse the grammar definition")
 				}
 			}
-
-			// console.log({ grammars })
 
 			try {
 				await mkdir(wasmCacheDir, { recursive: true })
@@ -119,8 +142,6 @@ export default function (
 				// already exists, but that's fine
 				error(JSON.stringify(_e))
 			}
-
-			// deno run -A npm:tree-sitter-cli build --wasm --output ./test1.wasm ../../github/tree-sitter-sqlite
 
 			for (const [gName, gPath] of grammars) {
 				const outWasm = `tree-sitter-${gName}.wasm`
