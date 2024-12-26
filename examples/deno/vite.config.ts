@@ -4,8 +4,14 @@ import pluginTreeSitter from "../../mod.ts"
 
 export default defineConfig({
 	plugins: [
-		pluginTreeSitter(["../../../../github/tree-sitter-sqlite"], {
-			// logLevel: "DEBUG",
-		}),
+		pluginTreeSitter(
+			[
+				"../../../../github/tree-sitter-sqlite",
+				// "../pnpm/node_modules/tree-sitter-sqlite",
+			],
+			{
+				logLevel: "DEBUG",
+			},
+		),
 	],
 })
