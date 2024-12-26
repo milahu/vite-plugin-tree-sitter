@@ -1,9 +1,10 @@
 {
 	"name": "@guyven/vite-plugin-tree-sitter",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"exports": "./mod.ts",
 	"license": "MIT",
 	"imports": {
+		"@std/path": "jsr:@std/path@^1.0.8",
 		"@types/node": "npm:@types/node@^22.10.2",
 		"ora": "npm:ora@^8.1.1",
 		"vite": "npm:vite@^6.0.5"

@@ -6,21 +6,29 @@ import {
 	error,
 	fsExecute,
 	fsExists,
+	fsMakeDir,
+	fsPathJoin,
+	fsReadText,
 	info,
 	pluginName,
 	Defaults as util_defaults,
 } from "./util.ts"
 import { createReadStream } from "node:fs"
-import { join as pathJoin, basename } from "node:path"
-import { mkdir, readFile } from "node:fs/promises"
+import { basename } from "@std/path"
+// import { join as pathJoin, basename } from "node:path"
+// import { mkdir, readFile } from "node:fs/promises"
 
 async function identifyCLI() {
 	for (const tsPath of [
-		pathJoin("node_modules", ".bin", "tree-sitter"),
+		fsPathJoin("node_modules", ".bin", "tree-sitter"),
 		"tree-sitter",
 	]) {
-		const cmdExe = await fsExecute(tsPath, { args: ["--version"] })
-		if (cmdExe.success) return tsPath
+		try {
+			const cmdExe = await fsExecute(tsPath, { args: ["--version"] })
+			if (cmdExe.success) return tsPath
+		} catch (_e) {
+			// failure ignored
+		}
 	}
 	error("Unable to find 'tree-sitter' cli", {
 		extra:
@@ -64,7 +72,7 @@ export default function (
 	const wasmServeList = new Map()
 	wasmServeList.set(
 		"/tree-sitter.wasm",
-		pathJoin("node_modules", "web-tree-sitter", "tree-sitter.wasm"),
+		fsPathJoin("node_modules", "web-tree-sitter", "tree-sitter.wasm"),
 	)
 
 	let runMode: "DEV" | "PROD" | null = null
@@ -91,18 +99,19 @@ export default function (
 					parser.startsWith("../") ||
 					parser.startsWith("/")
 				)
-				const grammar_base_path = pathJoin(isPkg ? "node_modules" : "", parser)
-				const grammar_path = pathJoin(grammar_base_path, "tree-sitter.json")
+				const grammar_base_path = fsPathJoin(
+					isPkg ? "node_modules" : "",
+					parser,
+				)
+				const grammar_path = fsPathJoin(grammar_base_path, "tree-sitter.json")
 
 				if (!(await fsExists(grammar_path))) {
-					const pkgJsonPath = pathJoin(grammar_base_path, "package.json")
+					const pkgJsonPath = fsPathJoin(grammar_base_path, "package.json")
 					if (!(await fsExists(pkgJsonPath))) {
 						err("Unable to find 'tree-sitter.json' or 'package.json'")
 						continue
 					}
-					if (
-						!("tree-sitter" in JSON.parse(await readFile(pkgJsonPath, "utf8")))
-					) {
+					if (!("tree-sitter" in JSON.parse(await fsReadText(pkgJsonPath)))) {
 						err(
 							"Unable to find 'tree-sitter.json' or 'tree-sitter' section of 'package.json'",
 						)
@@ -127,7 +136,7 @@ export default function (
 				}
 
 				try {
-					const parser_name = JSON.parse(await readFile(grammar_path, "utf8"))
+					const parser_name = JSON.parse(await fsReadText(grammar_path))
 						.grammars[0].name
 					grammars.set(parser_name, parser)
 				} catch (_e) {
@@ -137,7 +146,7 @@ export default function (
 			}
 
 			try {
-				await mkdir(wasmCacheDir, { recursive: true })
+				await fsMakeDir(wasmCacheDir, { recursive: true })
 			} catch (_e) {
 				// already exists, but that's fine
 				error(JSON.stringify(_e))
@@ -145,7 +154,7 @@ export default function (
 
 			for (const [gName, gPath] of grammars) {
 				const outWasm = `tree-sitter-${gName}.wasm`
-				const outWasmPath = pathJoin(wasmCacheDir, outWasm)
+				const outWasmPath = fsPathJoin(wasmCacheDir, outWasm)
 				wasmServeList.set("/" + outWasm, outWasmPath)
 
 				const spinner = ora({
@@ -181,7 +190,7 @@ export default function (
 
 			if (runMode == "PROD") {
 				for (const [wname, wpath] of wasmServeList) {
-					const wasmContent = await readFile(wpath)
+					const wasmContent = await Deno.readFile(wpath)
 					this.emitFile({
 						type: "asset",
 						fileName: basename(wname),
