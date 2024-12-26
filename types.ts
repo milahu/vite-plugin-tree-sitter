@@ -13,5 +13,5 @@ export type FSMakeDir = (
 	path: string,
 	options: Partial<{ recursive: boolean }>,
 ) => Promise<void>
-export type FSStreamFileTo = (path: string, to: WritableStream<unknown>) => void
+export type FSStreamFileTo = (path: string, to: NodeJS.WritableStream) => void
 export type FSFileNameFromPath = (path: string) => string
