@@ -14,6 +14,10 @@
 			"LICENSE",
 			"mod.ts",
 			"util.ts",
+			"types.ts",
+			"fs.ts",
+			"fs_deno.ts",
+			"fs_node.ts",
 			"deno.json",
 			"deno.lock",
 			"README.md"
