@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@guyven/vite-plugin-tree-sitter':
-        specifier: npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.2
-        version: '@jsr/guyven__vite-plugin-tree-sitter@0.2.2'
+        specifier: npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.3
+        version: '@jsr/guyven__vite-plugin-tree-sitter@0.2.3'
       tree-sitter-sqlite:
         specifier: github:GunnerGuyven/tree-sitter-sqlite#0.1.0
         version: https://codeload.github.com/GunnerGuyven/tree-sitter-sqlite/tar.gz/2c8346ddbc1150e7d0faab86cdd77c92ea9e704a
@@ -177,8 +177,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@jsr/guyven__vite-plugin-tree-sitter@0.2.2':
-    resolution: {integrity: sha512-PPS4l7Wtf85sAqBSYoA6WK3sM1VPW6oPfBuV82OWg8KOQEsLcN0mNVPo/rZVFGiDJRPHLkZptf83ud8o6WeTgw==, tarball: https://npm.jsr.io/~/11/@jsr/guyven__vite-plugin-tree-sitter/0.2.2.tgz}
+  '@jsr/guyven__vite-plugin-tree-sitter@0.2.3':
+    resolution: {integrity: sha512-MlvwYzAK5OOH+F0YSxObFLPqIbksxdxVj1vynmkXwByOF+tBWYx4fPGgKAAWh2FfymnXzV6k111St2xERBqGXA==, tarball: https://npm.jsr.io/~/11/@jsr/guyven__vite-plugin-tree-sitter/0.2.3.tgz}
+
+  '@jsr/std__path@1.0.8':
+    resolution: {integrity: sha512-eNBGlh/8ZVkMxtFH4bwIzlAeKoHYk5in4wrBZhi20zMdOiuX4QozP4+19mIXBT2lzHDjhuVLyECbhFeR304iDg==, tarball: https://npm.jsr.io/~/11/@jsr/std__path/1.0.8.tgz}
 
   '@rollup/rollup-android-arm-eabi@4.29.1':
     resolution: {integrity: sha512-ssKhA8RNltTZLpG6/QNkCSge+7mBQGUqJRisZ2MDQcEGaK93QESEgWK2iOpIDZ7k9zPVkG5AS3ksvD5ZWxmItw==}
@@ -522,8 +525,9 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
-  '@jsr/guyven__vite-plugin-tree-sitter@0.2.2':
+  '@jsr/guyven__vite-plugin-tree-sitter@0.2.3':
     dependencies:
+      '@jsr/std__path': 1.0.8
       ora: 8.1.1
       vite: 6.0.6
     transitivePeerDependencies:
@@ -538,6 +542,8 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  '@jsr/std__path@1.0.8': {}
 
   '@rollup/rollup-android-arm-eabi@4.29.1':
     optional: true

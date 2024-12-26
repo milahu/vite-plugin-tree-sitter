@@ -10,7 +10,7 @@ export default defineConfig({
 				// "../pnpm/node_modules/tree-sitter-sqlite",
 			],
 			{
-				logLevel: "DEBUG",
+				// logLevel: "TRACE",
 			},
 		),
 	],

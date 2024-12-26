@@ -4,19 +4,19 @@ import ora from "ora"
 import {
 	debug,
 	error,
-	fsExecute,
-	fsExists,
-	fsMakeDir,
-	fsPathJoin,
-	fsReadText,
 	info,
 	pluginName,
 	Defaults as util_defaults,
 } from "./util.ts"
-import { createReadStream } from "node:fs"
-import { basename } from "@std/path"
-// import { join as pathJoin, basename } from "node:path"
-// import { mkdir, readFile } from "node:fs/promises"
+import {
+	fsExecute,
+	fsExists,
+	fsFileNameFromPath,
+	fsMakeDir,
+	fsPathJoin,
+	fsReadText,
+	fsStreamFileTo,
+} from "./fs.ts"
 
 async function identifyCLI() {
 	for (const tsPath of [
@@ -50,7 +50,7 @@ export default function (
 		/** Override for `emcc` tool's cache directory. May be useful if write permissions interfere */
 		emBuildCacheDir: string
 		/** Detail level of messages emitted at runtime, default = INFO */
-		logLevel: "DEBUG" | "INFO" | "ERROR"
+		logLevel: "TRACE" | "DEBUG" | "INFO" | "ERROR"
 	}> = {},
 ): PluginOption {
 	// console.log({ cwd: Deno.cwd(), parsers, options })
@@ -67,6 +67,10 @@ export default function (
 	} else if (options.logLevel == "ERROR") {
 		util_defaults.showDebug = false
 		util_defaults.showInfo = false
+	} else if (options.logLevel == "TRACE") {
+		util_defaults.showDebug = true
+		util_defaults.showInfo = true
+		util_defaults.showTrace = true
 	}
 
 	const wasmServeList = new Map()
@@ -193,7 +197,7 @@ export default function (
 					const wasmContent = await Deno.readFile(wpath)
 					this.emitFile({
 						type: "asset",
-						fileName: basename(wname),
+						fileName: fsFileNameFromPath(wname),
 						source: wasmContent,
 					})
 				}
@@ -207,7 +211,8 @@ export default function (
 					if (wasm) {
 						info("wasm serve", { extra: wasm })
 						res.writeHead(200, { "Content-Type": "application/wasm" })
-						createReadStream(wasm).pipe(res)
+						fsStreamFileTo(wasm, res)
+						// createReadStream(wasm).pipe(res)
 					} else {
 						next()
 					}
