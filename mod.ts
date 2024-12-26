@@ -212,7 +212,6 @@ export default function (
 						info("wasm serve", { extra: wasm })
 						res.writeHead(200, { "Content-Type": "application/wasm" })
 						fsStreamFileTo(wasm, res)
-						// createReadStream(wasm).pipe(res)
 					} else {
 						next()
 					}

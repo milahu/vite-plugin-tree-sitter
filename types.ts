@@ -1,5 +1,3 @@
-import type { Writer } from "@std/io/types"
-
 export type FSPathJoin = (...paths: string[]) => string
 export type FSExecute = (
 	path: string,
@@ -15,5 +13,5 @@ export type FSMakeDir = (
 	path: string,
 	options: Partial<{ recursive: boolean }>,
 ) => Promise<void>
-export type FSStreamFileTo = (path: string, to: Writer) => void
+export type FSStreamFileTo = (path: string, to: WritableStream<unknown>) => void
 export type FSFileNameFromPath = (path: string) => string
