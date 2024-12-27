@@ -4,6 +4,14 @@ This plugin for [vite](https://github.com/vitejs/vite) streamlines the process o
 developing and bundling a [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/lib/binding_web)
 grammar in your project.
 
+## Installation
+
+Hosted on [jsr](https://jsr.io/@guyven/vite-plugin-tree-sitter). Installation
+instructions for supported platforms are described there.
+
+## Changelog
+
+- `0.2.7` 2024-12-27 : updated documentation and examples
 - `0.2.6` 2024-12-27 : replaced indirection for `createReadStream` due to strange `vite` behavior
 - `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove ambiguity
 - `0.2.4` 2024-12-26 : added fs method discriminators
@@ -52,10 +60,10 @@ import pluginTreeSitter from "vite-plugin-tree-sitter"
 export default defineConfig({
  plugins: [
   pluginTreeSitter(["../../github/tree-sitter-sqlite/"], {
-   alwaysRebuild: false, // whether to rebuild wasm on every vite build cycle
-   emBuildCacheDir: null, // override for emcc build process location, may be required due to write permissions
-   wasmCacheDir: ".grammar", // location for output of wasm build process (used during vite serve for caching)
-   logLevel: "INFO", // DEBUG | INFO | ERROR
+   alwaysRebuild: false,
+   emBuildCacheDir: null,
+   wasmCacheDir: ".grammar",
+   logLevel: "INFO",
   }),
  ],
 })

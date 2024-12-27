@@ -84,7 +84,7 @@ export default function (
 
 	return {
 		name: pluginName,
-		version: "0.2.0",
+		version: "0.2.7",
 		apply: ({ mode }) => {
 			runMode =
 				mode == "development" ? "DEV" : mode == "production" ? "PROD" : null
@@ -131,7 +131,7 @@ export default function (
 					})
 
 					if (!success) {
-						error("Tool Output", { extra: stderr })
+						error("CLI", { extra: stderr })
 					}
 					if (!(await fsExists(grammar_path))) {
 						err("Failed to upgrade grammar, will not include in bundle")
@@ -153,7 +153,7 @@ export default function (
 				await fsMakeDir(wasmCacheDir, { recursive: true })
 			} catch (_e) {
 				// already exists, but that's fine
-				error(JSON.stringify(_e))
+				// error(JSON.stringify(_e))
 			}
 
 			for (const [gName, gPath] of grammars) {
