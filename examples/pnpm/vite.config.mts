@@ -4,7 +4,7 @@ import pluginTreeSitter from "@guyven/vite-plugin-tree-sitter"
 export default defineConfig({
 	plugins: [
 		pluginTreeSitter(["tree-sitter-sqlite"], {
-			logLevel: "TRACE",
+			// logLevel: "TRACE",
 		}),
 	],
 })

@@ -4,7 +4,7 @@
 		"build": "deno run -A npm:vite build"
 	},
 	"imports": {
-		"@guyven/vite-plugin-tree-sitter": "jsr:@guyven/vite-plugin-tree-sitter@^0.2.5",
+		"@guyven/vite-plugin-tree-sitter": "jsr:@guyven/vite-plugin-tree-sitter@^0.2.6",
 		"@std/path": "jsr:@std/path@^1.0.8",
 		"ora": "npm:ora@^8.1.1",
 		"vite": "npm:vite@^6.0.6",
