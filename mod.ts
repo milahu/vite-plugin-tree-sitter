@@ -16,8 +16,8 @@ import {
 	fsPathJoin,
 	fsPathResolve,
 	fsReadText,
-	fsStreamFileTo,
 } from "./fs.ts"
+import { createReadStream } from "node:fs"
 
 async function identifyCLI() {
 	for (const tsPath of [
@@ -211,7 +211,10 @@ export default function (
 					if (wasm) {
 						info("wasm serve", { extra: wasm })
 						res.writeHead(200, { "Content-Type": "application/wasm" })
-						fsStreamFileTo(wasm, res)
+						// TODO: create a native Deno replacement for this
+						// - at: fsStreamFileTo(wasm, res)
+						// - also investigate why vite blows up in node if i use the current above instead of below
+						createReadStream(wasm).pipe(res)
 					} else {
 						next()
 					}

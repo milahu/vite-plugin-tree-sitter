@@ -4,11 +4,11 @@
 		"build": "deno run -A npm:vite build"
 	},
 	"imports": {
-		"@guyven/vite-plugin-tree-sitter": "jsr:@guyven/vite-plugin-tree-sitter@^0.2.4",
+		"@guyven/vite-plugin-tree-sitter": "jsr:@guyven/vite-plugin-tree-sitter@^0.2.5",
 		"@std/path": "jsr:@std/path@^1.0.8",
 		"ora": "npm:ora@^8.1.1",
 		"vite": "npm:vite@^6.0.6",
-		"web-tree-sitter": "npm:web-tree-sitter@^0.24.5"
+		"web-tree-sitter": "npm:web-tree-sitter@^0.24.6"
 	},
 	"compilerOptions": { "lib": ["deno.ns", "dom"] },
 	"nodeModulesDir": "auto"

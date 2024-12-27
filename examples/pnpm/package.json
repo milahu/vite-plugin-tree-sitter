@@ -11,12 +11,12 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"tree-sitter-cli": "^0.24.5",
+		"tree-sitter-cli": "^0.24.6",
 		"vite": "^6.0.6"
 	},
 	"dependencies": {
-		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.4",
+		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.5",
 		"tree-sitter-sqlite": "github:GunnerGuyven/tree-sitter-sqlite#0.1.0",
-		"web-tree-sitter": "^0.24.5"
+		"web-tree-sitter": "^0.24.6"
 	}
 }

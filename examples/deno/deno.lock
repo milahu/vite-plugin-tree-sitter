@@ -1,21 +1,20 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@guyven/vite-plugin-tree-sitter@~0.2.4": "0.2.4",
+    "jsr:@guyven/vite-plugin-tree-sitter@~0.2.5": "0.2.5",
     "jsr:@std/path@^1.0.8": "1.0.8",
     "npm:ora@^8.1.1": "8.1.1",
     "npm:vite@*": "6.0.6",
     "npm:vite@^6.0.5": "6.0.6",
     "npm:vite@^6.0.6": "6.0.6",
-    "npm:web-tree-sitter@~0.24.5": "0.24.5"
+    "npm:web-tree-sitter@~0.24.6": "0.24.6"
   },
   "jsr": {
-    "@guyven/vite-plugin-tree-sitter@0.2.4": {
-      "integrity": "1e0c8e42f30b8d3a3a44a4c1e85a26a1ec7f54097b9d46ab1d3c9ac481d7f0eb",
+    "@guyven/vite-plugin-tree-sitter@0.2.5": {
+      "integrity": "ff34e34ef2db8154a521360bc41a9553428748b45d0b30021484258fbfda87a3",
       "dependencies": [
         "jsr:@std/path",
-        "npm:ora",
-        "npm:vite@^6.0.5"
+        "npm:ora"
       ]
     },
     "@std/path@1.0.8": {
@@ -330,17 +329,17 @@
         "rollup"
       ]
     },
-    "web-tree-sitter@0.24.5": {
-      "integrity": "sha512-+J/2VSHN8J47gQUAvF8KDadrfz6uFYVjxoxbKWDoXVsH2u7yLdarCnIURnrMA6uSRkgX3SdmqM5BOoQjPdSh5w=="
+    "web-tree-sitter@0.24.6": {
+      "integrity": "sha512-NVG40wwFerkvOSsrY2NE56nKpzwCpn8VT51gqZZaIfkBCMu+0JZLFVwJlZLPO01Ewfq3+Xg+NY4Bot5GD0L03g=="
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@guyven/vite-plugin-tree-sitter@~0.2.4",
+      "jsr:@guyven/vite-plugin-tree-sitter@~0.2.5",
       "jsr:@std/path@^1.0.8",
       "npm:ora@^8.1.1",
       "npm:vite@^6.0.6",
-      "npm:web-tree-sitter@~0.24.5"
+      "npm:web-tree-sitter@~0.24.6"
     ]
   }
 }

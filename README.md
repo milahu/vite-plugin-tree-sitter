@@ -4,6 +4,7 @@ This plugin for [vite](https://github.com/vitejs/vite) streamlines the process o
 developing and bundling a [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/lib/binding_web)
 grammar in your project.
 
+- `0.2.6` 2024-12-27 : replaced indirection for `createReadStream` due to strange `vite` behavior
 - `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove ambiguity
 - `0.2.4` 2024-12-26 : added fs method discriminators
   - currently supporting `deno` and `node`
