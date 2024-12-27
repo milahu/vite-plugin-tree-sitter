@@ -4,7 +4,8 @@ This plugin for [vite](https://github.com/vitejs/vite) streamlines the process o
 developing and bundling a [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/lib/binding_web)
 grammar in your project.
 
-- `0.2.4` 2024-12-26 : added fs method descriminators
+- `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove ambiguity
+- `0.2.4` 2024-12-26 : added fs method discriminators
   - currently supporting `deno` and `node`
   - added TRACE log level for better narrowing of issues
 - `0.2.3` 2024-12-25 : replaced most node behaviors with native `deno`
