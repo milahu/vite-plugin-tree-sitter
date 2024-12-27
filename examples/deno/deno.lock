@@ -5,6 +5,7 @@
     "jsr:@std/path@^1.0.8": "1.0.8",
     "npm:ora@^8.1.1": "8.1.1",
     "npm:vite@*": "6.0.6",
+    "npm:vite@^6.0.5": "6.0.6",
     "npm:vite@^6.0.6": "6.0.6",
     "npm:web-tree-sitter@~0.24.5": "0.24.5"
   },
@@ -13,7 +14,8 @@
       "integrity": "1e0c8e42f30b8d3a3a44a4c1e85a26a1ec7f54097b9d46ab1d3c9ac481d7f0eb",
       "dependencies": [
         "jsr:@std/path",
-        "npm:ora"
+        "npm:ora",
+        "npm:vite@^6.0.5"
       ]
     },
     "@std/path@1.0.8": {

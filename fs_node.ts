@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process"
-import { basename, join } from "node:path"
+import { basename, join, resolve } from "node:path"
 import { mkdir, readFile, stat } from "node:fs/promises"
 import { createReadStream } from "node:fs"
 import type {
@@ -8,19 +8,22 @@ import type {
 	FSFileNameFromPath,
 	FSMakeDir,
 	FSPathJoin,
+	FSPathResolve,
 	FSReadText,
 	FSStreamFileTo,
 } from "./types.ts"
 
 export const fsPathJoin: FSPathJoin = (...paths) => join(...paths)
 export const fsFileNameFromPath: FSFileNameFromPath = path => basename(path)
+export const fsPathResolve: FSPathResolve = path => resolve(path)
 export const fsExecute: FSExecute = (path, options = {}) => {
 	path = Array.isArray(path) ? fsPathJoin(...path) : path
 	const { args, env, cwd } = options
 	const cmd = spawn(path, args, { env, cwd })
+	const decoder = new TextDecoder()
 	const result = { success: false, stderr: "", stdout: "" }
-	cmd.stdout?.on("data", data => (result.stdout = data))
-	cmd.stderr?.on("data", data => (result.stderr = data))
+	cmd.stdout?.on("data", data => (result.stdout = decoder.decode(data)))
+	cmd.stderr?.on("data", data => (result.stderr = decoder.decode(data)))
 	return new Promise(resolve => {
 		cmd.on("error", _err => {
 			result.success = false

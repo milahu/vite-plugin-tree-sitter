@@ -3,6 +3,7 @@ import type {
 	FSExecute,
 	FSExists,
 	FSFileNameFromPath,
+	FSPathResolve,
 	FSMakeDir,
 	FSPathJoin,
 	FSReadText,
@@ -11,6 +12,7 @@ import type {
 import {
 	fsPathJoin as deno_PathJoin,
 	fsFileNameFromPath as deno_FileNameFromPath,
+	fsPathResolve as deno_PathResolve,
 	fsExecute as deno_Execute,
 	fsExists as deno_Exists,
 	fsReadText as deno_ReadText,
@@ -20,6 +22,7 @@ import {
 import {
 	fsPathJoin as node_PathJoin,
 	fsFileNameFromPath as node_FileNameFromPath,
+	fsPathResolve as node_PathResolve,
 	fsExecute as node_Execute,
 	fsExists as node_Exists,
 	fsReadText as node_ReadText,
@@ -93,6 +96,23 @@ export const fsFileNameFromPath: FSFileNameFromPath = path => {
 			error("Unable to parse path in this environment")
 	}
 	trace("fsFileNameFromPath", { extra: JSON.stringify({ result }) })
+	return result
+}
+
+export const fsPathResolve: FSPathResolve = path => {
+	trace("fsPathResolve", { extra: JSON.stringify({ path }) })
+	let result = ""
+	switch (getRuntime()) {
+		case Runtime.Deno:
+			result = deno_PathResolve(path)
+			break
+		case Runtime.Node:
+			result = node_PathResolve(path)
+			break
+		default:
+			error("Unable to resolve path in this environment")
+	}
+	trace("fsPathResolve", { extra: JSON.stringify({ result }) })
 	return result
 }
 

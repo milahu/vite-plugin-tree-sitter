@@ -14,13 +14,14 @@ import {
 	fsFileNameFromPath,
 	fsMakeDir,
 	fsPathJoin,
+	fsPathResolve,
 	fsReadText,
 	fsStreamFileTo,
 } from "./fs.ts"
 
 async function identifyCLI() {
 	for (const tsPath of [
-		fsPathJoin("node_modules", ".bin", "tree-sitter"),
+		fsPathResolve(fsPathJoin("node_modules", ".bin", "tree-sitter")),
 		"tree-sitter",
 	]) {
 		try {
@@ -103,9 +104,8 @@ export default function (
 					parser.startsWith("../") ||
 					parser.startsWith("/")
 				)
-				const grammar_base_path = fsPathJoin(
-					isPkg ? "node_modules" : "",
-					parser,
+				const grammar_base_path = fsPathResolve(
+					fsPathJoin(isPkg ? "node_modules" : "", parser),
 				)
 				const grammar_path = fsPathJoin(grammar_base_path, "tree-sitter.json")
 
@@ -142,7 +142,7 @@ export default function (
 				try {
 					const parser_name = JSON.parse(await fsReadText(grammar_path))
 						.grammars[0].name
-					grammars.set(parser_name, parser)
+					grammars.set(parser_name, grammar_base_path)
 				} catch (_e) {
 					// console.error({ _e })
 					err("Unable to parse the grammar definition")

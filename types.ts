@@ -1,4 +1,6 @@
 export type FSPathJoin = (...paths: string[]) => string
+export type FSFileNameFromPath = (path: string) => string
+export type FSPathResolve = (path: string) => string
 export type FSExecute = (
 	path: string,
 	options: Partial<{
@@ -14,4 +16,3 @@ export type FSMakeDir = (
 	options: Partial<{ recursive: boolean }>,
 ) => Promise<void>
 export type FSStreamFileTo = (path: string, to: NodeJS.WritableStream) => void
-export type FSFileNameFromPath = (path: string) => string

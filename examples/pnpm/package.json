@@ -15,7 +15,7 @@
 		"vite": "^6.0.6"
 	},
 	"dependencies": {
-		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.3",
+		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.4",
 		"tree-sitter-sqlite": "github:GunnerGuyven/tree-sitter-sqlite#0.1.0",
 		"web-tree-sitter": "^0.24.5"
 	}

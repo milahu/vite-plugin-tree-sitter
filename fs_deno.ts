@@ -1,10 +1,11 @@
-import { basename, join } from "@std/path"
+import { basename, join, resolve } from "@std/path"
 import type {
 	FSExecute,
 	FSExists,
 	FSFileNameFromPath,
 	FSMakeDir,
 	FSPathJoin,
+	FSPathResolve,
 	FSReadText,
 	// FSStreamFileTo,
 } from "./types.ts"
@@ -13,6 +14,7 @@ import type {
 
 export const fsPathJoin: FSPathJoin = (...paths) => join(...paths)
 export const fsFileNameFromPath: FSFileNameFromPath = path => basename(path)
+export const fsPathResolve: FSPathResolve = path => resolve(path)
 export const fsExecute: FSExecute = async (path, options) => {
 	const { args, env, cwd } = options
 	const cmd = new Deno.Command(path, { args, env, cwd })
