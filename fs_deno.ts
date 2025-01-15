@@ -6,6 +6,7 @@ import type {
 	FSMakeDir,
 	FSPathJoin,
 	FSPathResolve,
+	FSReadFile,
 	FSReadText,
 	// FSStreamFileTo,
 } from "./types.ts"
@@ -37,6 +38,7 @@ export const fsExists: FSExists = async path => {
 	return false
 }
 export const fsReadText: FSReadText = path => Deno.readTextFile(path)
+export const fsReadFile: FSReadFile = path => Deno.readFile(path)
 export const fsMakeDir: FSMakeDir = (path, options) => Deno.mkdir(path, options)
 
 // export const fsStreamFileTo: FSStreamFileTo = async (path, to) => {

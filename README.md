@@ -11,6 +11,7 @@ instructions for supported platforms are described there.
 
 ## Changelog
 
+- `0.2.8` 2025-01-15 : correcting `node` support for production mode output
 - `0.2.7` 2024-12-27 : updated documentation and examples
 - `0.2.6` 2024-12-27 : replaced indirection for `createReadStream` due to strange `vite` behavior
 - `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove ambiguity

@@ -14,7 +14,8 @@
       "integrity": "a769209fbd1746903ec0c576b126c9ad6cb498e505d4adb8d7773cef930db07d",
       "dependencies": [
         "jsr:@std/path",
-        "npm:ora"
+        "npm:ora",
+        "npm:vite@^6.0.5"
       ]
     },
     "@std/path@1.0.8": {
@@ -336,6 +337,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@guyven/vite-plugin-tree-sitter@~0.2.7",
+      "jsr:@std/path@^1.0.8",
+      "npm:ora@^8.1.1",
       "npm:vite@^6.0.6",
       "npm:web-tree-sitter@~0.24.6"
     ]

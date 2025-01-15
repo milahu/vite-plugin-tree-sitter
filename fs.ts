@@ -8,6 +8,7 @@ import type {
 	FSPathJoin,
 	FSReadText,
 	FSStreamFileTo,
+	FSReadFile,
 } from "./types.ts"
 import {
 	fsPathJoin as deno_PathJoin,
@@ -16,6 +17,7 @@ import {
 	fsExecute as deno_Execute,
 	fsExists as deno_Exists,
 	fsReadText as deno_ReadText,
+	fsReadFile as deno_ReadFile,
 	fsMakeDir as deno_MakeDir,
 	// fsStreamFileTo as deno_StreamFileTo,
 } from "./fs_deno.ts"
@@ -26,6 +28,7 @@ import {
 	fsExecute as node_Execute,
 	fsExists as node_Exists,
 	fsReadText as node_ReadText,
+	fsReadFile as node_ReadFile,
 	fsMakeDir as node_MakeDir,
 	fsStreamFileTo as node_StreamFileTo,
 } from "./fs_node.ts"
@@ -164,6 +167,23 @@ export const fsReadText: FSReadText = async path => {
 			error("Unable to read external file in this environment")
 	}
 	trace("fsReadText", { extra: JSON.stringify({ result }) })
+	return result
+}
+
+export const fsReadFile: FSReadFile = async path => {
+	trace("fsReadFile", { extra: JSON.stringify({ path }) })
+	let result = new Uint8Array()
+	switch (getRuntime()) {
+		case Runtime.Deno:
+			result = await deno_ReadFile(path)
+			break
+		case Runtime.Node:
+			result = await node_ReadFile(path)
+			break
+		default:
+			error("Unable to read external file in this environment")
+	}
+	trace("fsReadFile", { extra: JSON.stringify({ bytesRead: result.length }) })
 	return result
 }
 

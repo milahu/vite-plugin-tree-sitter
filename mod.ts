@@ -15,6 +15,7 @@ import {
 	fsMakeDir,
 	fsPathJoin,
 	fsPathResolve,
+	fsReadFile,
 	fsReadText,
 } from "./fs.ts"
 import { createReadStream } from "node:fs"
@@ -194,7 +195,7 @@ export default function (
 
 			if (runMode == "PROD") {
 				for (const [wname, wpath] of wasmServeList) {
-					const wasmContent = await Deno.readFile(wpath)
+					const wasmContent = await fsReadFile(wpath)
 					this.emitFile({
 						type: "asset",
 						fileName: fsFileNameFromPath(wname),

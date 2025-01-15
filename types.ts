@@ -11,6 +11,7 @@ export type FSExecute = (
 ) => Promise<{ success: boolean; stdout: string; stderr: string }>
 export type FSExists = (path: string) => Promise<boolean>
 export type FSReadText = (path: string) => Promise<string>
+export type FSReadFile = (path: string) => Promise<Uint8Array>
 export type FSMakeDir = (
 	path: string,
 	options: Partial<{ recursive: boolean }>,

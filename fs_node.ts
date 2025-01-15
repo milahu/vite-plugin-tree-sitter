@@ -9,6 +9,7 @@ import type {
 	FSMakeDir,
 	FSPathJoin,
 	FSPathResolve,
+	FSReadFile,
 	FSReadText,
 	FSStreamFileTo,
 } from "./types.ts"
@@ -17,7 +18,6 @@ export const fsPathJoin: FSPathJoin = (...paths) => join(...paths)
 export const fsFileNameFromPath: FSFileNameFromPath = path => basename(path)
 export const fsPathResolve: FSPathResolve = path => resolve(path)
 export const fsExecute: FSExecute = (path, options = {}) => {
-	path = Array.isArray(path) ? fsPathJoin(...path) : path
 	const { args, env, cwd } = options
 	const cmd = spawn(path, args, { env, cwd })
 	const decoder = new TextDecoder()
@@ -38,7 +38,6 @@ export const fsExecute: FSExecute = (path, options = {}) => {
 	})
 }
 export const fsExists: FSExists = async path => {
-	path = Array.isArray(path) ? fsPathJoin(...path) : path
 	try {
 		await stat(path)
 		return true
@@ -47,10 +46,8 @@ export const fsExists: FSExists = async path => {
 	}
 	return false
 }
-export const fsReadText: FSReadText = path => {
-	path = Array.isArray(path) ? fsPathJoin(...path) : path
-	return readFile(path, "utf8")
-}
+export const fsReadText: FSReadText = path => readFile(path, "utf8")
+export const fsReadFile: FSReadFile = path => readFile(path)
 export const fsMakeDir: FSMakeDir = async (path, options = {}) => {
 	await mkdir(path, options)
 }
