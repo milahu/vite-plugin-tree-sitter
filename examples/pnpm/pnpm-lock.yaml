@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@guyven/vite-plugin-tree-sitter':
-        specifier: npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.7
-        version: '@jsr/guyven__vite-plugin-tree-sitter@0.2.7'
+        specifier: npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.8
+        version: '@jsr/guyven__vite-plugin-tree-sitter@0.2.8'
       tree-sitter-sqlite:
         specifier: github:GunnerGuyven/tree-sitter-sqlite#0.1.0
         version: https://codeload.github.com/GunnerGuyven/tree-sitter-sqlite/tar.gz/2c8346ddbc1150e7d0faab86cdd77c92ea9e704a
@@ -177,8 +177,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@jsr/guyven__vite-plugin-tree-sitter@0.2.7':
-    resolution: {integrity: sha512-pAFhRxyXrdc+ajvESQyHPCmw77LQcYlKZWk/TvTaNzhqwQgmUl90ELy0Dxs51vmcLnRkp97iJOwE5O/V4wkOIg==, tarball: https://npm.jsr.io/~/11/@jsr/guyven__vite-plugin-tree-sitter/0.2.7.tgz}
+  '@jsr/guyven__vite-plugin-tree-sitter@0.2.8':
+    resolution: {integrity: sha512-vRZuT4jI0ALWmbbqJ/u85MpzdBiTtXBSNd2ovkupuSdxq11hQlI+fvA0bgAp2lEJ8S+NsTBNJwTRZDTwVxdDPA==, tarball: https://npm.jsr.io/~/11/@jsr/guyven__vite-plugin-tree-sitter/0.2.8.tgz}
 
   '@jsr/std__path@1.0.8':
     resolution: {integrity: sha512-eNBGlh/8ZVkMxtFH4bwIzlAeKoHYk5in4wrBZhi20zMdOiuX4QozP4+19mIXBT2lzHDjhuVLyECbhFeR304iDg==, tarball: https://npm.jsr.io/~/11/@jsr/std__path/1.0.8.tgz}
@@ -525,7 +525,7 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
-  '@jsr/guyven__vite-plugin-tree-sitter@0.2.7':
+  '@jsr/guyven__vite-plugin-tree-sitter@0.2.8':
     dependencies:
       '@jsr/std__path': 1.0.8
       ora: 8.1.1
