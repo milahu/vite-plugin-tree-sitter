@@ -17,6 +17,7 @@ import {
 	fsPathResolve,
 	fsReadFile,
 	fsReadText,
+	fsSpawnShell,
 } from "./fs.ts"
 import { createReadStream } from "node:fs"
 
@@ -132,7 +133,17 @@ export default function (
 					})
 
 					if (!success) {
-						error("CLI", { extra: stderr })
+						if (stderr.startsWith("IO error")) {
+							info("CLI tool requires input, please follow prompts:", {
+								forceShow: true,
+							})
+							const x = await fsSpawnShell(ts, {
+								args: ["init", "--update"],
+								cwd: grammar_base_path,
+							})
+						} else {
+							error("CLI", { extra: stderr })
+						}
 					}
 					if (!(await fsExists(grammar_path))) {
 						err("Failed to upgrade grammar, will not include in bundle")

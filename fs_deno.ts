@@ -27,6 +27,19 @@ export const fsExecute: FSExecute = async (path, options) => {
 	result.stdout = decoder.decode(output.stdout)
 	return result
 }
+export const fsSpawnShell = async (path, options) => {
+	const { args, env, cwd } = options
+	const command = new Deno.Command(path, {
+		args,
+		env,
+		cwd,
+		stdin: "inherit",
+		stdout: "inherit",
+		stderr: "inherit",
+	})
+	const { success, code } = await command.spawn().status
+	return { success, code }
+}
 export const fsExists: FSExists = async path => {
 	try {
 		await Deno.stat(path)

@@ -9,6 +9,7 @@ import type {
 	FSReadText,
 	FSStreamFileTo,
 	FSReadFile,
+	FSSpawnShell,
 } from "./types.ts"
 import {
 	fsPathJoin as deno_PathJoin,
@@ -19,6 +20,7 @@ import {
 	fsReadText as deno_ReadText,
 	fsReadFile as deno_ReadFile,
 	fsMakeDir as deno_MakeDir,
+	fsSpawnShell as deno_SpawnShell,
 	// fsStreamFileTo as deno_StreamFileTo,
 } from "./fs_deno.ts"
 import {
@@ -133,6 +135,20 @@ export const fsExecute: FSExecute = async (path, options) => {
 			error("Unable to execute external process in this environment")
 	}
 	trace("fsExecute", { extra: JSON.stringify({ result }) })
+	return result
+}
+
+export const fsSpawnShell: FSSpawnShell = async (path, options) => {
+	trace("fsSpawnShell", { extra: JSON.stringify({ path, options }) })
+	let result = { success: false, code: 0 }
+	switch (getRuntime()) {
+		case Runtime.Deno:
+			result = await deno_SpawnShell(path, options)
+			break
+		default:
+			error("Unable to spawn shell in this environment")
+	}
+	trace("fsSpawnShell", { extra: JSON.stringify({ result }) })
 	return result
 }
 

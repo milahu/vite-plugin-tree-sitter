@@ -11,10 +11,13 @@ instructions for supported platforms are described there.
 
 ## Changelog
 
+- `0.2.9` 2025-05-27 : adding interactive CLI mode (tree-sitter > 0.25)
 - `0.2.8` 2025-01-15 : correcting `node` support for production mode output
 - `0.2.7` 2024-12-27 : updated documentation and examples
-- `0.2.6` 2024-12-27 : replaced indirection for `createReadStream` due to strange `vite` behavior
-- `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove ambiguity
+- `0.2.6` 2024-12-27 : replaced indirection for `createReadStream` due to strange
+  `vite` behavior
+- `0.2.5` 2024-12-26 : modified some internal path tracking to absolute to remove
+  ambiguity
 - `0.2.4` 2024-12-26 : added fs method discriminators
   - currently supporting `deno` and `node`
   - added TRACE log level for better narrowing of issues
@@ -91,7 +94,8 @@ see [examples/solidjs/](examples/solidjs/)
 
 ### Related
 
-- <https://github.com/tree-sitter/tree-sitter/discussions/1024> Using Tree-Sitter in Browser
+- <https://github.com/tree-sitter/tree-sitter/discussions/1024> Using Tree-Sitter
+  in Browser
   - <https://tree-sitter.github.io/tree-sitter/playground>
   - <https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-7-playground.html>
   - <https://github.com/tree-sitter/tree-sitter/blob/master/docs/assets/js/playground.js>
