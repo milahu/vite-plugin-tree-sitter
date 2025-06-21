@@ -32,6 +32,7 @@ import {
 	fsReadText as node_ReadText,
 	fsReadFile as node_ReadFile,
 	fsMakeDir as node_MakeDir,
+	fsSpawnShell as node_SpawnShell,
 	fsStreamFileTo as node_StreamFileTo,
 } from "./fs_node.ts"
 
@@ -56,15 +57,12 @@ export const getRuntime = () => {
 		return Defaults.forceRuntime
 	}
 	const ua = navigator.userAgent
-	const runtime = ua.startsWith("Deno")
-		? Runtime.Deno
-		: ua.startsWith("Node.js")
-			? Runtime.Node
-			: ua.startsWith("Bun")
-				? Runtime.Bun
-				: ua.startsWith("Cloudflare-Workers")
-					? Runtime.CloudflareWorkers
-					: Runtime.unknown
+	const runtime =
+		ua.startsWith("Deno") ? Runtime.Deno
+		: ua.startsWith("Node.js") ? Runtime.Node
+		: ua.startsWith("Bun") ? Runtime.Bun
+		: ua.startsWith("Cloudflare-Workers") ? Runtime.CloudflareWorkers
+		: Runtime.unknown
 	// console.log("runtime=", Runtime[runtime], ua)
 	trace("getRuntime", { extra: `${Runtime[runtime]} (detected)` })
 	return runtime
@@ -145,6 +143,9 @@ export const fsSpawnShell: FSSpawnShell = async (path, options) => {
 		case Runtime.Deno:
 			result = await deno_SpawnShell(path, options)
 			break
+		case Runtime.Node:
+			result = await node_SpawnShell(path, options)
+			break
 		default:
 			error("Unable to spawn shell in this environment")
 	}
@@ -221,7 +222,7 @@ export const fsStreamFileTo: FSStreamFileTo = (path, to) => {
 	switch (getRuntime()) {
 		case Runtime.Deno:
 			//return deno_StreamFileTo(path, to)
-			debug("tsStreamFileTo", {
+			debug("fsStreamFileTo", {
 				extra: "Deno stubbed, using Node implementation",
 			})
 			return node_StreamFileTo(path, to)

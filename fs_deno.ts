@@ -8,6 +8,7 @@ import type {
 	FSPathResolve,
 	FSReadFile,
 	FSReadText,
+	FSSpawnShell,
 	// FSStreamFileTo,
 } from "./types.ts"
 // import { toReadableStream, toWritableStream } from "@std/io"
@@ -27,7 +28,7 @@ export const fsExecute: FSExecute = async (path, options) => {
 	result.stdout = decoder.decode(output.stdout)
 	return result
 }
-export const fsSpawnShell = async (path, options) => {
+export const fsSpawnShell: FSSpawnShell = async (path, options) => {
 	const { args, env, cwd } = options
 	const command = new Deno.Command(path, {
 		args,

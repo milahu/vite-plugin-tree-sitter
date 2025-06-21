@@ -89,7 +89,9 @@ export default function (
 		version: "0.2.7",
 		apply: ({ mode }) => {
 			runMode =
-				mode == "development" ? "DEV" : mode == "production" ? "PROD" : null
+				mode == "development" ? "DEV"
+				: mode == "production" ? "PROD"
+				: null
 			return true
 		},
 		async buildStart(_inputOptions: unknown) {
@@ -137,7 +139,7 @@ export default function (
 							info("CLI tool requires input, please follow prompts:", {
 								forceShow: true,
 							})
-							const x = await fsSpawnShell(ts, {
+							const _x = await fsSpawnShell(ts, {
 								args: ["init", "--update"],
 								cwd: grammar_base_path,
 							})
@@ -190,9 +192,10 @@ export default function (
 
 				const exeResult = await fsExecute(ts, {
 					args: ["build", "--wasm", "--output", outWasmPath, gPath],
-					env: options.wasmCacheDir
-						? { EM_CACHE: options.wasmCacheDir }
-						: undefined,
+					env:
+						options.wasmCacheDir ?
+							{ EM_CACHE: options.wasmCacheDir }
+						:	undefined,
 				})
 
 				const { success, stderr } = exeResult
