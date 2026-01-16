@@ -86,7 +86,7 @@ export default function (
 
 	return {
 		name: pluginName,
-		version: "0.2.7",
+		version: "0.2.10",
 		apply: ({ mode }) => {
 			runMode =
 				mode == "development" ? "DEV"

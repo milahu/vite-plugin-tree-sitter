@@ -189,7 +189,7 @@ export const fsReadText: FSReadText = async path => {
 
 export const fsReadFile: FSReadFile = async path => {
 	trace("fsReadFile", { extra: JSON.stringify({ path }) })
-	let result = new Uint8Array()
+	let result: Uint8Array<ArrayBufferLike> = new Uint8Array()
 	switch (getRuntime()) {
 		case Runtime.Deno:
 			result = await deno_ReadFile(path)
