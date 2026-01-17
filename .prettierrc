@@ -2,5 +2,8 @@
 	"semi": false,
 	"useTabs": true,
 	"arrowParens": "avoid",
-	"experimentalTernaries": true
+	"experimentalTernaries": true,
+	"overrides": [
+		{ "files": ["*.jsonc"], "options": { "trailingComma": "none" } }
+	]
 }
