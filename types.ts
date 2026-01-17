@@ -1,4 +1,4 @@
-export type FSPathJoin = (...paths: string[]) => string
+export type FSPathJoin = (...paths: [string, ...string[]]) => string
 export type FSFileNameFromPath = (path: string) => string
 export type FSPathResolve = (path: string) => string
 export type FSExecute = (
