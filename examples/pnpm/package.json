@@ -8,13 +8,13 @@
 		"build": "vite build"
 	},
 	"devDependencies": {
-		"tree-sitter-cli": "^0.24.6",
-		"vite": "^6.0.6"
+		"tree-sitter-cli": "^0.26.3",
+		"vite": "^7.3.1"
 	},
 	"dependencies": {
-		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.2.8",
+		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.3.0",
 		"tree-sitter-sqlite": "github:GunnerGuyven/tree-sitter-sqlite#0.1.0",
-		"web-tree-sitter": "^0.24.6"
+		"web-tree-sitter": "^0.26.3"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

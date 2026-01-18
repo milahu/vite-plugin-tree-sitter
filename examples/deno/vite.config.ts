@@ -1,6 +1,5 @@
 import { defineConfig } from "vite"
 import pluginTreeSitter from "@guyven/vite-plugin-tree-sitter"
-// import pluginTreeSitter from "../../mod.ts"
 
 export default defineConfig({
 	plugins: [

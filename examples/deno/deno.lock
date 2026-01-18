@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@guyven/vite-plugin-tree-sitter@0.3": "0.3.0",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/path@^1.1.4": "1.1.4",
     "npm:ora@9": "9.0.0",
@@ -9,6 +10,14 @@
     "npm:web-tree-sitter@~0.26.3": "0.26.3"
   },
   "jsr": {
+    "@guyven/vite-plugin-tree-sitter@0.3.0": {
+      "integrity": "1bf03445026192083170e93dcbd19ac5b63e615887ce138a199dd0f0cb16b82e",
+      "dependencies": [
+        "jsr:@std/path",
+        "npm:ora",
+        "npm:vite@^7.3.1"
+      ]
+    },
     "@std/internal@1.0.12": {
       "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     },
@@ -495,16 +504,6 @@
       "jsr:@guyven/vite-plugin-tree-sitter@0.3",
       "npm:vite@^7.3.1",
       "npm:web-tree-sitter@~0.26.3"
-    ],
-    "links": {
-      "jsr:@guyven/vite-plugin-tree-sitter@0.3.0": {
-        "dependencies": [
-          "jsr:@std/path@^1.1.4",
-          "npm:@types/node@^25.0.9",
-          "npm:ora@9",
-          "npm:vite@^7.3.1"
-        ]
-      }
-    }
+    ]
   }
 }
