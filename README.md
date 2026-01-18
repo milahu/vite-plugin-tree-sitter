@@ -73,6 +73,8 @@ export default defineConfig({
    logLevel: "INFO",
   }),
  ],
+ // following is required for web-tree-sitter.wasm to appear in dev-mode
+ optimizeDeps: { exclude: ["web-tree-sitter"] },
 })
 ```
 
