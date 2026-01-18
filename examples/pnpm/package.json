@@ -1,0 +1,26 @@
+{
+	"name": "vite-plugin-tree-sitter-test",
+	"version": "1.0.0",
+	"description": "an example implementation using node (pnpm)",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite --clearScreen false",
+		"build": "vite build"
+	},
+	"devDependencies": {
+		"tree-sitter-cli": "^0.26.3",
+		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@guyven/vite-plugin-tree-sitter": "npm:@jsr/guyven__vite-plugin-tree-sitter@^0.3.0",
+		"tree-sitter-sqlite": "github:GunnerGuyven/tree-sitter-sqlite#0.1.0",
+		"web-tree-sitter": "^0.26.3"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"tree-sitter-cli",
+			"tree-sitter-sqlite"
+		]
+	}
+}

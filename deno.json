@@ -1,0 +1,26 @@
+{
+	"name": "@guyven/vite-plugin-tree-sitter",
+	"version": "0.3.0",
+	"exports": "./mod.ts",
+	"license": "MIT",
+	"imports": {
+		"@std/path": "jsr:@std/path@^1.1.4",
+		"@types/node": "npm:@types/node@^25.0.9",
+		"ora": "npm:ora@^9.0.0",
+		"vite": "npm:vite@^7.3.1"
+	},
+	"publish": {
+		"include": [
+			"LICENSE",
+			"mod.ts",
+			"util.ts",
+			"types.ts",
+			"fs.ts",
+			"fs_deno.ts",
+			"fs_node.ts",
+			"deno.json",
+			"deno.lock",
+			"README.md"
+		]
+	}
+}
