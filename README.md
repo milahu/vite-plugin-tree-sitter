@@ -75,6 +75,7 @@ export default defineConfig({
   }),
  ],
  // following is required for web-tree-sitter.wasm to appear in dev-mode
+ // until https://github.com/vitejs/vite/issues/8427 is addressed
  optimizeDeps: { exclude: ["web-tree-sitter"] },
 })
 ```
