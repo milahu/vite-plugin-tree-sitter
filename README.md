@@ -11,6 +11,7 @@ instructions for supported platforms are described there.
 
 ## Changelog
 
+- `0.3.1` 2026-01-19 : updated documentation and examples
 - `0.3.0` 2026-01-17 : upgraded dependencies
   - removed special handling for web-tree-sitter (0.26 no longer requires it)
 - `0.2.10` 2025-06-21 : added CLI mode to node implementation
@@ -73,6 +74,9 @@ export default defineConfig({
    logLevel: "INFO",
   }),
  ],
+ // following is required for web-tree-sitter.wasm to appear in dev-mode
+ // until https://github.com/vitejs/vite/issues/8427 is addressed
+ optimizeDeps: { exclude: ["web-tree-sitter"] },
 })
 ```
 
