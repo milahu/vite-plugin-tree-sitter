@@ -11,6 +11,7 @@ instructions for supported platforms are described there.
 
 ## Changelog
 
+- `0.3.1` 2026-01-19 : updated documentation and examples
 - `0.3.0` 2026-01-17 : upgraded dependencies
   - removed special handling for web-tree-sitter (0.26 no longer requires it)
 - `0.2.10` 2025-06-21 : added CLI mode to node implementation
